@@ -3,13 +3,18 @@ package br.com.lucasbertoloto.registradordecalculos.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Document("calculos")
 public class Calculo {
-
     @Id
     private String id;
+    @NotBlank
     private String nomePessoa;
+    @NotBlank
     private String operacao;
+    @NotNull
     private double resultado;
 
     public Calculo() {
