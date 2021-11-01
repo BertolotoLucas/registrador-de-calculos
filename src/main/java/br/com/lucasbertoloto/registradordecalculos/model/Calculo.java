@@ -51,4 +51,31 @@ public class Calculo {
     public void setResultado(double resultado) {
         this.resultado = resultado;
     }
+
+    //(Example of operation: 1,plus,3)
+    public Double calc(){
+        Double x1;
+        Double x2;
+        Double result = null;
+        String operation;
+        String[] split = getOperacao().split(",");
+        x1 = Double.parseDouble(split[0]);
+        operation = split[1];
+        x2 = Double.parseDouble(split[2]);
+        switch (operation){
+            case "plus": {
+                result = x1+x2;
+                break;
+            }
+            case "minus": {
+                result = x1-x2;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        this.setResultado(result);
+        return result;
+    }
 }

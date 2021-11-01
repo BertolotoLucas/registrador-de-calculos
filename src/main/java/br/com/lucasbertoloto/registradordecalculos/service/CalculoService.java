@@ -14,6 +14,11 @@ public class CalculoService {
     CalculoRepository calculoRepository;
 
     @Transactional
+    public Calculo save(Calculo calculo) {
+        return calculoRepository.save(calculo);
+    }
+
+    @Transactional
     public List<Calculo> saveAll(List<Calculo> calculos){
         return calculoRepository.saveAll(calculos);
     }
