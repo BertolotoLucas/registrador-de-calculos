@@ -56,11 +56,10 @@ public class Calculo {
     public Double calc(){
         Double x1;
         Double x2;
-        Double result = null;
-        String operation;
+        Double result=null;
         String[] split = getOperacao().split(",");
         x1 = Double.parseDouble(split[0]);
-        operation = split[1];
+        String operation = split[1];
         x2 = Double.parseDouble(split[2]);
         switch (operation){
             case "plus": {
@@ -71,11 +70,31 @@ public class Calculo {
                 result = x1-x2;
                 break;
             }
+            case "multiply":{
+                result = x1*x2;
+                break;
+            }
+            case "divide":{
+                if (x2!=0){
+                    result = x1/x2;
+                }
+                break;
+            }
             default: {
                 break;
             }
         }
         this.setResultado(result);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Calculo{" +
+                "id='" + id + '\'' +
+                ", nomePessoa='" + nomePessoa + '\'' +
+                ", operacao='" + operacao + '\'' +
+                ", resultado=" + resultado +
+                '}';
     }
 }
