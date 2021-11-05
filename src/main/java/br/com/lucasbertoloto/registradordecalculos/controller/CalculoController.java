@@ -42,11 +42,11 @@ public class CalculoController {
 //    }
 
     @PostMapping
-    public ResponseEntity<String> insertCalculo(@RequestBody Calculo calculo){
+    public ResponseEntity<Calculo> insertCalculo(@RequestBody Calculo calculo){
         if(Objects.isNull(calculo))
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Calculo>(HttpStatus.BAD_REQUEST);
         calculo.calc();
-        return new ResponseEntity<String>(Double.toString(calculoService.save(calculo).getResultado())
+        return new ResponseEntity<Calculo>(calculoService.save(calculo)
                 ,HttpStatus.OK);
     }
 }
