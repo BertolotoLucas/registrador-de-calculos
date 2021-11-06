@@ -14,8 +14,7 @@ public class Calculo {
     private String nomePessoa;
     @NotBlank
     private String operacao;
-    @NotNull
-    private double resultado;
+    private Double resultado;
 
     public Calculo() {
     }
@@ -44,11 +43,11 @@ public class Calculo {
         this.operacao = operacao;
     }
 
-    public double getResultado() {
+    public Double getResultado() {
         return resultado;
     }
 
-    public void setResultado(double resultado) {
+    public void setResultado(Double resultado) {
         this.resultado = resultado;
     }
 
@@ -56,7 +55,7 @@ public class Calculo {
     public Double calc(){
         Double x1;
         Double x2;
-        Double result=null;
+        Double result = null;
         String[] split = getOperacao().split(",");
         x1 = Double.parseDouble(split[0]);
         String operation = split[1];
