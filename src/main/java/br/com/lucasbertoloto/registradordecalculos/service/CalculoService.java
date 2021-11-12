@@ -37,4 +37,10 @@ public class CalculoService {
     public Long count(){
         return calculoRepository.count();
     }
+
+    @Transactional
+    public List<Calculo> findByNomePessoaContainingIgnoreCase(String name) {
+        return calculoRepository.findByNomePessoaContainingIgnoreCase(name);
+    }
+
 }

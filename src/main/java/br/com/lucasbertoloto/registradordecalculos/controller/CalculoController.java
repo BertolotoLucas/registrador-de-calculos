@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
@@ -19,27 +18,21 @@ public class CalculoController {
     private CalculoService calculoService;
 
     @GetMapping
-    public ResponseEntity<List<Calculo>> list(){
+    public ResponseEntity<List<Calculo>> list(@RequestParam Map<String,String> allParams){
         if (calculoService.count()<1) {
             return new ResponseEntity<List<Calculo>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Calculo>>(calculoService.findAll(),HttpStatus.OK);
+        List<Calculo> calculos = new ArrayList<>();
+        if (!allParams.isEmpty()) {
+            System.out.println(allParams.entrySet());
+            if (allParams.containsKey("nomePessoa")) {
+                calculos = calculoService.findByNomePessoaContainingIgnoreCase(allParams.get("nomePessoa").toString());
+            }
+        } else {
+            calculos = calculoService.findAll();
+        }
+        return new ResponseEntity<List<Calculo>>(calculos,HttpStatus.OK);
     }
-//
-//    @PostMapping
-//    public ResponseEntity<List<Calculo>> insertCalculos(@RequestBody List<Calculo> calculos){
-//        AtomicReference<Boolean> valid = new AtomicReference<>(true);
-//        calculos.forEach(calculo -> {
-//            if(Objects.isNull(calculo.getNomePessoa()) || Objects.isNull(calculo.getOperacao())
-//                    || Objects.isNull(calculo.getResultado())) {
-//                valid.set(false);
-//            }
-//        });
-//        if (!valid.get()) {
-//            return new ResponseEntity<List<Calculo>>(calculos,HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<List<Calculo>>(calculoService.insertList(calculos),HttpStatus.OK);
-//    }
 
     @PostMapping
     public ResponseEntity<Calculo> insertCalculo(@RequestBody Calculo calculo){
