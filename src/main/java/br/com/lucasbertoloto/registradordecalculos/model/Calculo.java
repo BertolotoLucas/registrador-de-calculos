@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Document("calculos")
 public class Calculo {
@@ -95,5 +96,18 @@ public class Calculo {
                 ", operacao='" + operacao + '\'' +
                 ", resultado=" + resultado +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Calculo calculo = (Calculo) o;
+        return Objects.equals(id, calculo.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
