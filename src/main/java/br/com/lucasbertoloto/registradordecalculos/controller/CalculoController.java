@@ -1,9 +1,13 @@
 package br.com.lucasbertoloto.registradordecalculos.controller;
 
 import br.com.lucasbertoloto.registradordecalculos.model.Calculo;
+import br.com.lucasbertoloto.registradordecalculos.repository.CalculoRepository;
 import br.com.lucasbertoloto.registradordecalculos.service.CalculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +22,35 @@ public class CalculoController {
     private CalculoService calculoService;
 
     @GetMapping
-    public ResponseEntity<List<Calculo>> list(@RequestParam Map<String,String> allParams){
-        if (calculoService.count()<1) {
-            return new ResponseEntity<List<Calculo>>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> list(@RequestParam(required = false) String nomePessoa,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "7") int size){
+        Long total = calculoService.count();
+        if (total<1) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        List<Calculo> calculos = new ArrayList<>();
-        if (!allParams.isEmpty()) {
-            System.out.println(allParams.entrySet());
-            if (allParams.containsKey("nomePessoa")) {
-                calculos = calculoService.findByNomePessoaContainingIgnoreCase(allParams.get("nomePessoa").toString());
-            }
-        } else {
-            calculos = calculoService.findAll();
+        try {
+            List<Calculo> calculos = new ArrayList<Calculo>();
+            Pageable pageable = PageRequest.of(page, size);
+
+            Page<Calculo> pageCalculos;
+            if (nomePessoa == null)
+                pageCalculos = calculoService.findAll(pageable);
+            else
+                pageCalculos = calculoService.findByNomePessoaContainingIgnoreCase(nomePessoa,pageable);;
+
+            calculos = pageCalculos.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("calculos", calculos);
+            response.put("currentPage", pageCalculos.getNumber());
+            response.put("totalItems", pageCalculos.getTotalElements());
+            response.put("totalPages", pageCalculos.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<List<Calculo>>(calculos,HttpStatus.OK);
     }
 
     @PostMapping

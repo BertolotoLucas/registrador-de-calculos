@@ -3,6 +3,8 @@ package br.com.lucasbertoloto.registradordecalculos.service;
 import br.com.lucasbertoloto.registradordecalculos.model.Calculo;
 import br.com.lucasbertoloto.registradordecalculos.repository.CalculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +41,14 @@ public class CalculoService {
     }
 
     @Transactional
-    public List<Calculo> findByNomePessoaContainingIgnoreCase(String name) {
-        return calculoRepository.findByNomePessoaContainingIgnoreCase(name);
+    public Page<Calculo> findByNomePessoaContainingIgnoreCase(String name, Pageable page) {
+        return calculoRepository.findByNomePessoaContainingIgnoreCase(name,page);
     }
+
+    @Transactional
+    public Page<Calculo> findAll(Pageable page){
+        return calculoRepository.findAll(page);
+    }
+
 
 }
