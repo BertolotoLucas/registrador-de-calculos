@@ -31,13 +31,13 @@ public class CalculoController {
         }
         try {
             List<Calculo> calculos = new ArrayList<Calculo>();
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("id")));
 
             Page<Calculo> pageCalculos;
             if (nomePessoa == null)
                 pageCalculos = calculoService.findAll(pageable);
             else
-                pageCalculos = calculoService.findByNomePessoaContainingIgnoreCase(nomePessoa,pageable);;
+                pageCalculos = calculoService.findByNomePessoaContainingIgnoreCase(nomePessoa,pageable);
 
             calculos = pageCalculos.getContent();
 
