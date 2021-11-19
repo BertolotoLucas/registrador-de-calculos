@@ -7,17 +7,14 @@ import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 public class AppConfig {
-    //    public @Bean
-    //    MongoClient mongoClient() {
-    //
-    //        ConnectionString connectionString = new ConnectionString("mongo server");
-    //        MongoClientSettings settings = MongoClientSettings.builder()
-    //                .applyConnectionString(connectionString)
-    //                .build();
-    //        MongoClient mongoClient = MongoClients.create(settings);
-    //
-    //        return mongoClient;
-    //    }
+
+    public @Bean MongoClient mongoClient() {
+        String uri = System.getenv("DATABASE_URI");
+        ConnectionString connectionString = new ConnectionString(uri);
+        MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).build();
+        MongoClient mongoClient = MongoClients.create(settings);
+        return mongoClient;
+    }
 }
