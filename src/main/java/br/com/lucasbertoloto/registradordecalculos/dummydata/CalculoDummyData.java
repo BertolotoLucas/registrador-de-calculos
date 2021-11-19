@@ -2,12 +2,11 @@ package br.com.lucasbertoloto.registradordecalculos.dummydata;
 
 import br.com.lucasbertoloto.registradordecalculos.model.Calculo;
 import br.com.lucasbertoloto.registradordecalculos.service.CalculoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CalculoDummyData {
@@ -15,7 +14,7 @@ public class CalculoDummyData {
     CalculoService calculoService;
 
     //@PostConstruct
-    public void populaBanco(){
+    public void populaBanco() {
         List<Calculo> calculos = new ArrayList<>();
 
         Calculo calculo = new Calculo();

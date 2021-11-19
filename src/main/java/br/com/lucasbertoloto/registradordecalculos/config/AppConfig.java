@@ -1,4 +1,5 @@
 package br.com.lucasbertoloto.registradordecalculos.config;
+
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -8,17 +9,15 @@ import org.springframework.context.annotation.Configuration;
 
 //@Configuration
 public class AppConfig {
-//    public @Bean
-//    MongoClient mongoClient() {
-//
-//        ConnectionString connectionString = new ConnectionString("mongo server");
-//        MongoClientSettings settings = MongoClientSettings.builder()
-//                .applyConnectionString(connectionString)
-//                .build();
-//        MongoClient mongoClient = MongoClients.create(settings);
-//
-//        return mongoClient;
-//    }
-
-
+    //    public @Bean
+    //    MongoClient mongoClient() {
+    //
+    //        ConnectionString connectionString = new ConnectionString("mongo server");
+    //        MongoClientSettings settings = MongoClientSettings.builder()
+    //                .applyConnectionString(connectionString)
+    //                .build();
+    //        MongoClient mongoClient = MongoClients.create(settings);
+    //
+    //        return mongoClient;
+    //    }
 }

@@ -3,6 +3,8 @@ package br.com.lucasbertoloto.registradordecalculos.controller;
 import br.com.lucasbertoloto.registradordecalculos.model.Calculo;
 import br.com.lucasbertoloto.registradordecalculos.repository.CalculoRepository;
 import br.com.lucasbertoloto.registradordecalculos.service.CalculoService;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
@@ -12,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-
 @Controller
 @RequestMapping("/calculos")
 public class CalculoController {
@@ -22,11 +21,13 @@ public class CalculoController {
     private CalculoService calculoService;
 
     @GetMapping
-    public ResponseEntity<?> list(@RequestParam(required = false) String nomePessoa,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "7") int size){
+    public ResponseEntity<?> list(
+        @RequestParam(required = false) String nomePessoa,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "7") int size
+    ) {
         Long total = calculoService.count();
-        if (total<1) {
+        if (total < 1) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         try {
@@ -34,10 +35,8 @@ public class CalculoController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("id")));
 
             Page<Calculo> pageCalculos;
-            if (nomePessoa == null)
-                pageCalculos = calculoService.findAll(pageable);
-            else
-                pageCalculos = calculoService.findByNomePessoaContainingIgnoreCase(nomePessoa,pageable);
+            if (nomePessoa == null) pageCalculos = calculoService.findAll(pageable); else pageCalculos =
+                calculoService.findByNomePessoaContainingIgnoreCase(nomePessoa, pageable);
 
             calculos = pageCalculos.getContent();
 
@@ -54,11 +53,9 @@ public class CalculoController {
     }
 
     @PostMapping
-    public ResponseEntity<Calculo> insertCalculo(@RequestBody Calculo calculo){
-        if(Objects.isNull(calculo))
-            return new ResponseEntity<Calculo>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Calculo> insertCalculo(@RequestBody Calculo calculo) {
+        if (Objects.isNull(calculo)) return new ResponseEntity<Calculo>(HttpStatus.BAD_REQUEST);
         calculo.calc();
-        return new ResponseEntity<Calculo>(calculoService.save(calculo)
-                ,HttpStatus.OK);
+        return new ResponseEntity<Calculo>(calculoService.save(calculo), HttpStatus.OK);
     }
 }

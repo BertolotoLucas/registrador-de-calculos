@@ -1,23 +1,24 @@
 package br.com.lucasbertoloto.registradordecalculos.model;
 
+import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 
 @Document("calculos")
 public class Calculo {
     @Id
     private String id;
+
     @NotBlank
     private String nomePessoa;
+
     @NotBlank
     private String operacao;
+
     private Double resultado;
 
-    public Calculo() {
-    }
+    public Calculo() {}
 
     public String getId() {
         return id;
@@ -52,7 +53,7 @@ public class Calculo {
     }
 
     //(Example of operation: 1,plus,3)
-    public Double calc(){
+    public Double calc() {
         Double x1;
         Double x2;
         Double result = null;
@@ -60,28 +61,33 @@ public class Calculo {
         x1 = Double.parseDouble(split[0]);
         String operation = split[1];
         x2 = Double.parseDouble(split[2]);
-        switch (operation){
-            case "plus": {
-                result = x1+x2;
-                break;
-            }
-            case "minus": {
-                result = x1-x2;
-                break;
-            }
-            case "multiply":{
-                result = x1*x2;
-                break;
-            }
-            case "divide":{
-                if (x2!=0){
-                    result = x1/x2;
+        switch (operation) {
+            case "plus":
+                {
+                    result = x1 + x2;
+                    break;
                 }
-                break;
-            }
-            default: {
-                break;
-            }
+            case "minus":
+                {
+                    result = x1 - x2;
+                    break;
+                }
+            case "multiply":
+                {
+                    result = x1 * x2;
+                    break;
+                }
+            case "divide":
+                {
+                    if (x2 != 0) {
+                        result = x1 / x2;
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
         }
         this.setResultado(result);
         return result;
@@ -89,12 +95,21 @@ public class Calculo {
 
     @Override
     public String toString() {
-        return "Calculo{" +
-                "id='" + id + '\'' +
-                ", nomePessoa='" + nomePessoa + '\'' +
-                ", operacao='" + operacao + '\'' +
-                ", resultado=" + resultado +
-                '}';
+        return (
+            "Calculo{" +
+            "id='" +
+            id +
+            '\'' +
+            ", nomePessoa='" +
+            nomePessoa +
+            '\'' +
+            ", operacao='" +
+            operacao +
+            '\'' +
+            ", resultado=" +
+            resultado +
+            '}'
+        );
     }
 
     @Override
