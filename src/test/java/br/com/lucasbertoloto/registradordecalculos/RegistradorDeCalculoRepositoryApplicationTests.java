@@ -7,5 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class RegistradorDeCalculoRepositoryApplicationTests {
 
     @Test
-    void contextLoads() {}
+    void contextLoads() {
+        System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
+    }
 }
